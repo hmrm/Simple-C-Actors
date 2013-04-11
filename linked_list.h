@@ -11,6 +11,7 @@ void free_list_and_data(linked_list * list);
 
 //appends to the head of the list unless tail is true
 int list_append(linked_list * list, void * data, int tail);
+void * list_pop(linked_list * list, int tail);
 listnode * list_head(linked_list * list);
 listnode * list_next(listnode * node);
 listnode * list_previous(listnode * node);
