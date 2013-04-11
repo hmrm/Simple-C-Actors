@@ -3,7 +3,7 @@
 
 typedef struct actor actor;
 typedef struct message message;
-typedef struct message_handler_t message_handler_t;
+typedef struct message_handler message_handler;
 
-actor * create_actor(message_handler_t handler);
+actor * create_actor(message_handler ** handler); //consumes the message handler
 int send_message_to(actor * recipient, message msg);
