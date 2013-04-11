@@ -9,7 +9,10 @@ typedef struct {
     void * data;
 } message;
 
+message_handler * new_message_handler();
+
 actor * create_actor(message_handler ** handler); //consumes the message handler
 int send_message_to(actor * recipient, message msg);
+int kill_actor(actor * target);
 
 #endif
