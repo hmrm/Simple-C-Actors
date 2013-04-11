@@ -1,5 +1,5 @@
-#ifndef SIMPLEACTOR_QUEUE_H
-#define SIMPLEACTOR_ACTOR_H
+#ifndef HMRM_THREADSAFE_QUEUE_H_
+#define HMRM_THREADSAFE_QUEUE_H_
 
 typedef struct threadsafe_queue threadsafe_queue;
 
