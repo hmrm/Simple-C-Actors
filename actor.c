@@ -13,6 +13,6 @@ typedef struct {
 } messagetype_handler;
 
 struct message_handler {
-    list_t_list * handlers;
+    list_t * handlers;
 };
 
