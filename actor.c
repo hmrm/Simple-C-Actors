@@ -1,6 +1,7 @@
 #include "actor.h"
 #include "queue.h"
-#include "linked_list"
+#include "SimCList/simclist.h"
+#include <stdlib.h>
 
 struct actor {
     threadsafe_queue * msgq;
@@ -12,6 +13,6 @@ typedef struct {
 } messagetype_handler;
 
 struct message_handler {
-    linked_list * handlers;
+    list_t_list * handlers;
 };
 
