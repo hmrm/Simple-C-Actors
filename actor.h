@@ -17,8 +17,8 @@ message_handler * new_message_handler();
 int register_handler(message_handler *message, int msgtype, int (*func)(void * data, void ** persistent_data));
 
 actor * create_actor(message_handler * handler);
-int send_message_to(actor * recipient, message msg);
-
-void free_handler(message_handler * handler);
+//Messages will be freed by the reciever
+int send_message_to(actor * recipient, message * msg);
 
 #endif
+

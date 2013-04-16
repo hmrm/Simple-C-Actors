@@ -65,6 +65,7 @@ int actorrun(actorrun_arg_t * args){
         } else {
             handler * hnd = list_seek(&(args->handler->handlers), &(msg->msgtype));
             (hnd->handling_function)(msg->data, &persistent_data);
+            free(msg);
         }
     }
     return 0;
@@ -84,4 +85,10 @@ actor * create_actor(message_handler * handler){
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED); //TODO: error checking
     
     pthread_create(&thread, &attr, &actorrun, args);
+    return ret;
+}
+
+int send_message_to(actor * recipient, message * msg){
+    threadsafe_enq(recipient->msgq, msg);
+    return 0;
 }
