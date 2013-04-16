@@ -51,14 +51,19 @@ int register_handler(message_handler *handler, int msgtype, int (*func)(void * d
     return 0;
 }
 
-int actorrun(message_handler * handler, threadsafe_queue * queue){
+typedef struct {
+    message_handler * handler;
+    threadsafe_queue * queue;
+} actorrun_arg_t;
+
+int actorrun(actorrun_arg_t * args){
     void * persistent_data = NULL;
     while(1){
-        message * msg = threadsafe_deq(queue);
+        message * msg = threadsafe_deq(args->queue);
         if(msg == NULL){
             usleep(1000); //TODO: set this up with condition variable
         } else {
-            handler * hnd = list_seek(&(handler->handlers), &(msg->msgtype));
+            handler * hnd = list_seek(&(args->handler->handlers), &(msg->msgtype));
             (hnd->handling_function)(msg->data, &persistent_data);
         }
     }
@@ -68,5 +73,15 @@ int actorrun(message_handler * handler, threadsafe_queue * queue){
 actor * create_actor(message_handler * handler){
     actor * ret = malloc(sizeof(actor));
     ret->msgq = new_threadsafe_queue();
-    //TODO: pthread here
+
+    actorrun_arg_t * args = malloc(sizeof(actorrun_arg_t));
+    args->handler = handler;
+    args->queue = ret->msgq;
+    
+    pthread_attr_t attr;
+    pthread_t thread;
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED); //TODO: error checking
+    
+    pthread_create(&thread, &attr, &actorrun, args);
 }
